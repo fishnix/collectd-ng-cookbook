@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+  config:
+    require_chef_omnibus: true
+  customize:
+    memory: 1024
+    cpus: 1
+  network:
+
+provisioner:
+  name: chef_zero
+  #environments_path: test/integration/default/environments
+  #client_rb:
+  #  environment: kitchen
+
+platforms:
+  - name: centos-6.6
+
+suites:
+  - name: default
+    run_list:
+      - recipe[collectd-ng::default]
+    attributes:
