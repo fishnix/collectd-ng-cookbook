@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: collectd-cookbook
-# Recipe:: install_package
+# Recipe:: varnish_plugin.rb
 #
 # Copyright (C) 2014 E Camden Fisher
 #
@@ -17,12 +17,7 @@
 # limitations under the License.
 #
 
-package 'collectd' do
-  action :install
-end
-
-include_recipe 'collectd-ng::configure'
-
-service 'collectd' do
-  action [:enable, :start]
+template "#{node['collectd-ng']['etc']}/collectd.d/varnish_plugin.conf" do
+  source "varnish_plugin.conf.erb"
+  notifies :reload, 'service[collectd]', :delayed
 end

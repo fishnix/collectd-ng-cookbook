@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: collectd-cookbook
-# Recipe:: install_package
+# Recipe:: write_graphite_plugin.rb
 #
 # Copyright (C) 2014 E Camden Fisher
 #
@@ -17,12 +17,8 @@
 # limitations under the License.
 #
 
-package 'collectd' do
-  action :install
-end
-
-include_recipe 'collectd-ng::configure'
-
-service 'collectd' do
-  action [:enable, :start]
+template "#{node['collectd-ng']['etc']}/collectd.d/write_graphite_plugin.conf" do
+  source "write_graphite_plugin.conf.erb"
+  variables(:nodes => node['collectd-ng']['plugin']['write_graphite']['nodes'])
+  notifies :reload, 'service[collectd]', :delayed
 end

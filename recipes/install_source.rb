@@ -20,18 +20,19 @@
 include_recipe 'build-essential::default'
 include_recipe 'collectd-ng::basedeps'
 
-source_file = "#{Chef::Config[:file_cache_path]}/#{node['collectd-ng']['file']}"
+source_file = "#{Chef::Config[:file_cache_path]}/#{node['collectd-ng']['source']['file']}"
 remote_file source_file do
-  source node['collectd-ng']['url']
+  source node['collectd-ng']['source']['url']
   notifies :run, 'bash[install_collectd]', :immediately
 end
 
+configure = node['collectd-ng']['plugins'].collect { |i| "--enable-#{i}" }.join(" ")
 bash "install_collectd" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
     tar -jxvf #{source_file}
-    cd collectd-#{node['collectd-ng']['version']}
-    ./configure
+    cd collectd-#{node['collectd-ng']['source']['version']}
+    ./configure #{configure}
     make
     make install
   EOH

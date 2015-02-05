@@ -33,4 +33,5 @@ template "#{node['collectd-ng']['etc']}/collectd.conf" do
   variables({
     :etcdir => node['collectd-ng']['etc']
   })
+  notifies :reload, 'service[collectd]', :delayed
 end

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: collectd-cookbook
-# Recipe:: install_package
+# Recipe:: apache_plugin.rb
 #
 # Copyright (C) 2014 E Camden Fisher
 #
@@ -17,12 +17,12 @@
 # limitations under the License.
 #
 
-package 'collectd' do
+package 'libcurl-devel' do
   action :install
 end
 
-include_recipe 'collectd-ng::configure'
-
-service 'collectd' do
-  action [:enable, :start]
+template "#{node['collectd-ng']['etc']}/collectd.d/apache_plugin.conf" do
+  source "apache_plugin.conf.erb"
+  variables(:instances => node['collectd-ng']['plugin']['apache']['instances'])
+  notifies :reload, 'service[collectd]', :delayed
 end

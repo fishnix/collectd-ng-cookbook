@@ -10,9 +10,9 @@ driver:
 
 provisioner:
   name: chef_zero
-  #environments_path: test/integration/default/environments
-  #client_rb:
-  #  environment: kitchen
+  environments_path: test/environments
+  client_rb:
+    environment: kitchen
 
 platforms:
   - name: centos-6.6
@@ -22,3 +22,12 @@ suites:
     run_list:
       - recipe[collectd-ng::default]
     attributes:
+      collectd-ng:
+        plugins: []
+  - name: package
+    run_list:
+      - recipe[collectd-ng::default]
+    attributes:
+      collectd-ng:
+        install_method: 'package'
+        plugins: []

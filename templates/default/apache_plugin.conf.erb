@@ -1,0 +1,13 @@
+LoadPlugin "apache"
+
+<Plugin "apache">
+  <% @instances.each do |i| %>
+  <Instance "<%= i['name'] %>">
+    URL "<%= i['url'] %>"
+    <% unless i['auth'].nil? %>
+    User "<%= i['auth']['user'] %>"
+    Password "<%= i['auth']['password'] %>"
+    <% end %>
+  </Instance>
+  <% end %>
+</Plugin>

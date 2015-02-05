@@ -1,0 +1,17 @@
+LoadPlugin "write_graphite"
+<Plugin "write_graphite">
+  <% @nodes.each do |n| %>
+  <Node "<%= n['name'] %>">
+    Host "<%= n['host'] %>"
+    Port "<%= n['port'] %>"
+    Prefix "<%= n['prefix'] %>."
+    Postfix "<%= n['postfix'] %>"
+    Protocol "<%= n['protocol'] %>"
+    LogSendErrors <%= n['log_send_errors'] %>
+    EscapeCharacter "<%= n['escape_character'] %>"
+    SeparateInstances <%= n['separate_instances'] %>
+    StoreRates <%= n['store_rates'] %>
+    AlwaysAppendDS <%= n['always_append_ds'] %>
+  </Node>
+  <% end %>
+</Plugin>
